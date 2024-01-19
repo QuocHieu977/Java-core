@@ -40,6 +40,6 @@ public class Main {
             }
             System.out.print("Do you want to continue(Y/N)?: ");
             check = sc.nextLine();
-        } while (!check.equals("n"));
+        } while (check.equals("y"));
     }
 }
