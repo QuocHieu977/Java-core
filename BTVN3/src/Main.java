@@ -26,8 +26,13 @@ public class Main {
                     System.out.println("Phép nhân: " + result);
                     break;
                 case "/":
-                    result = (double) a /b;
-                    System.out.println("Phép chia: " + result);
+                    if(b!=0) {
+                        result = (double) a /b;
+                        System.out.println("Phép chia: " + result);
+                    }else {
+                        System.out.println("Mời bạn nhập b, b khác 0");
+                    }
+
                     break;
                 case "%":
                     result = a%b;
