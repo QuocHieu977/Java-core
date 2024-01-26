@@ -10,7 +10,7 @@ public class Main {
 
         HinhChuNhat hcn = new HinhChuNhat(length, width);
         int sHCN = hcn.dienTichHCN(length, width);
-        double pHCN = hcn.chuViHCN(length, width);
+        int pHCN = hcn.chuViHCN(length, width);
 
         System.out.println("S= " +sHCN);
         System.out.println("P= " +pHCN);

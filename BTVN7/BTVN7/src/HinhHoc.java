@@ -7,8 +7,8 @@ public class HinhHoc {
         return a*a;
     }
 
-    public double chuViHCN(int length, int width) {
-        return (double) (length+width)/2;
+    public int chuViHCN(int length, int width) {
+        return (length+width)*2;
     }
 
     public int chuViHV(int a) {

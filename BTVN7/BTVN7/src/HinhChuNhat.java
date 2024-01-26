@@ -17,7 +17,7 @@ public class HinhChuNhat extends HinhHoc{
     }
 
     @Override
-    public double chuViHCN(int length, int width) {
+    public int chuViHCN(int length, int width) {
         return super.chuViHCN(length, width);
     }
 
