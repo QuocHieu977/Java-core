@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class ManagerHospital {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         //Nhập thông tin của bác sĩ
         System.out.print("Mời bạn nhập số bác sĩ: ");
         int n = Integer.parseInt(sc.nextLine());
