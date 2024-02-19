@@ -28,7 +28,16 @@ public abstract class SinhVienTechMaster {
         return result;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getMajors() {
+        return majors;
+    }
+
     public void xuat() {
+        System.out.println("========================");
         System.out.println("Họ và tên: "+name);
         System.out.println("Ngành học: "+majors);
         System.out.println("Điểm: "+getDiem());

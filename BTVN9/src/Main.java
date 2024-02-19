@@ -1,12 +1,13 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int n;
         String name;
-        String majors;
         double java;
         double html;
         double css;
@@ -34,28 +35,39 @@ public class Main {
                 case 1:
                     System.out.print("Nhập tên: ");
                     name = sc.nextLine();
-                    System.out.print("Nhập ngành học: ");
-                    majors = sc.nextLine();
-                    System.out.print("Nhập điểm java: ");
-                    java = Double.parseDouble(sc.nextLine());
-                    System.out.print("Nhập điểm html: ");
-                    html = Double.parseDouble(sc.nextLine());
-                    System.out.print("Nhập điểm css: ");
-                    css = Double.parseDouble(sc.nextLine());
 
-                    listSV[i] = new SinhVienIT(name, majors, java, html, css);
+                    do {
+                        System.out.print("Nhập điểm java: ");
+                        java = Double.parseDouble(sc.nextLine());
+                        System.out.print("Nhập điểm html: ");
+                        html = Double.parseDouble(sc.nextLine());
+                        System.out.print("Nhập điểm css: ");
+                        css = Double.parseDouble(sc.nextLine());
+
+                        if(java<0 || java>10 || html<0 || html>10 || css<0 || css>10) {
+                            System.out.println("Vui lòng nhập điểm!");
+                        }
+                    } while (java<0 || java>10 || html<0 || html>10 || css<0 || css>10);
+
+
+                    listSV[i] = new SinhVienIT(name, "IT", java, html, css);
                     break;
                 case 2:
                     System.out.print("Nhập tên: ");
                     name = sc.nextLine();
-                    System.out.print("Nhập ngành học: ");
-                    majors = sc.nextLine();
-                    System.out.print("Nhập điểm marketing: ");
-                    marketing = Double.parseDouble(sc.nextLine());
-                    System.out.print("Nhập điểm sales: ");
-                    sales = Double.parseDouble(sc.nextLine());
 
-                    listSV[i] = new SInhVienBiz(name, majors, marketing, sales);
+                    do {
+                        System.out.print("Nhập điểm marketing: ");
+                        marketing = Double.parseDouble(sc.nextLine());
+                        System.out.print("Nhập điểm sales: ");
+                        sales = Double.parseDouble(sc.nextLine());
+
+                        if(marketing <0 || marketing>10 || sales<0 || sales>10) {
+                            System.out.println("Vui lòng nhập lại điểm!");
+                        }
+                    } while (marketing <0 || marketing>10 || sales<0 || sales>10);
+
+                    listSV[i] = new SInhVienBiz(name, "Biz", marketing, sales);
                     break;
                 default:
                     System.out.println("Nhập lại...");
@@ -67,5 +79,16 @@ public class Main {
             sv.xuat();
         }
 
+        System.out.println("Lọc theo nghành: ");
+        String fMajors = sc.nextLine();
+        findOfMajors(listSV, fMajors);
+    }
+
+    public static void findOfMajors(SinhVienTechMaster[] listSV, String majors) {
+            for(SinhVienTechMaster sv: listSV) {
+                if(sv.getMajors().equalsIgnoreCase(majors)) {
+                    sv.xuat();
+                }
+            }
     }
 }
