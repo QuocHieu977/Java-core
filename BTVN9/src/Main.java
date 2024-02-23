@@ -7,7 +7,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int n;
-        String name;
         double java;
         double html;
         double css;
@@ -32,9 +31,9 @@ public class Main {
             } while (choose>2 || choose<1);
 
             switch (choose) {
-                case 1:
+                case Constant.SINH_VIEN_IT:
                     System.out.print("Nhập tên: ");
-                    name = sc.nextLine();
+                     String name = sc.nextLine();
 
                     do {
                         System.out.print("Nhập điểm java: ");
@@ -49,12 +48,11 @@ public class Main {
                         }
                     } while (java<0 || java>10 || html<0 || html>10 || css<0 || css>10);
 
-
                     listSV[i] = new SinhVienIT(name, "IT", java, html, css);
                     break;
-                case 2:
+                case Constant.SINH_VIEN_BIZ:
                     System.out.print("Nhập tên: ");
-                    name = sc.nextLine();
+                     name = sc.nextLine();
 
                     do {
                         System.out.print("Nhập điểm marketing: ");
