@@ -15,9 +15,9 @@ public class FigureService {
     }
     public ArrayList<Figure> saveFigure(Scanner scanner) {
         ArrayList<Figure> figures = new ArrayList<>();
-        System.out.print("Nhập số tướng: ");
-        int n = Integer.parseInt(scanner.nextLine());
-        for(int i=0; i<n; i++) {
+//        System.out.print("Nhập số tướng: ");
+//        int n = Integer.parseInt(scanner.nextLine());
+        for(int i=0; i<3; i++) {
             System.out.println("Nhập tướng thứ " +(i+1));
             figures.add(inputFigure(scanner));
         }
