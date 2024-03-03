@@ -102,36 +102,60 @@ public class LoginService {
         if (users == null) {
             System.out.println("user is null - #LoginService - forgotPassword");
         } else {
-            System.out.print("Enter your email: ");
-            String email = scanner.nextLine();
-            int count = 0;
-            for (User e : users) {
-                if (e.getMail().equals(email)) {
-                    System.out.print("Enter new password: ");
-                    String newPassword = scanner.nextLine();
-                    e.setPassword(newPassword);
-                    break;
+            boolean checkMail;
+            do {
+                UserService userService = new UserService();
+                System.out.print("Enter your email: ");
+                String email = scanner.nextLine();
+                checkMail = userService.emailValidator(email);
+                if (checkMail) {
+                    int count = 0;
+                    for (User e : users) {
+                        if (e.getMail().equals(email)) {
+                            changeUserInfo(scanner, e, "password");
+                            break;
+                        } else
+                            count++;
+                    }
+                    if (users.isEmpty() || count > 0)
+                        System.out.println("Email is not exist. Please register account");
                 } else
-                    count++;
-            }
-            if (users.isEmpty() || count > 0) {
-                System.out.println("Email is not exist. Please register account");
-            }
+                    System.out.println("Email format error");
+            } while (!checkMail);
         }
     }
 
     public void changeUserInfo(Scanner scanner, User user, String nameInfoChange) {
         System.out.print("Enter new your " + nameInfoChange + ": ");
         String newNameInfo = scanner.nextLine();
+        UserService userService = new UserService();
         if (nameInfoChange.equalsIgnoreCase("username")) {
-            user.setName(newNameInfo);
-            System.out.println("You are change username successfully");
+            if (user.getName().equals(newNameInfo))
+                System.out.println("Please enter another name...");
+            else {
+                user.setName(newNameInfo);
+                System.out.println("You are change username successfully");
+            }
         } else if (nameInfoChange.equalsIgnoreCase("email")) {
-            user.setMail(newNameInfo);
-            System.out.println("You are change email successfully");
+            if (userService.emailValidator(newNameInfo)) {
+                if (user.getMail().equals(newNameInfo))
+                    System.out.println("Please enter another email...");
+                else {
+                    user.setMail(newNameInfo);
+                    System.out.println("You are change email successfully");
+                }
+            } else
+                System.out.println("Email format error");
         } else if (nameInfoChange.equalsIgnoreCase("password")) {
-            user.setPassword(newNameInfo);
-            System.out.println("You are change password successfully");
+            if (userService.passwordValidator(newNameInfo)) {
+                if (user.getPassword().equals(newNameInfo))
+                    System.out.println("Please enter another password...");
+                else {
+                    user.setPassword(newNameInfo);
+                    System.out.println("You are change password successfully");
+                }
+            } else
+                System.out.println("Please enter a password from 7 to 15 characters, containing at least 1 capital letter, 1 special character");
         } else
             System.out.println("This information cannot be changed..");
     }
