@@ -9,19 +9,6 @@ import utils.LoginContains;
 import utils.LoginContains_2;
 
 public class LoginService {
-    public void loginAccount(Scanner scanner, ArrayList<User> users) {
-        if (users.isEmpty()) {
-            System.out.println("No account. Please create a new account");
-        } else {
-            User user = inputLogin(scanner, users);
-            if (user == null) {
-                menuLoginFailed(scanner, users);
-            } else {
-                menuLoginSuccess(scanner, user, users);
-            }
-        }
-    }
-
     public void menuLoginSuccess(Scanner scanner, User user, ArrayList<User> users) {
         System.out.println("========= Welcome " + user.getName() + " =========");
         int choose;
@@ -49,8 +36,7 @@ public class LoginService {
             }
         } while (choose != 4);
     }
-
-    public void menuLoginFailed(Scanner scanner, ArrayList<User> users) {
+    public void menuLoginFailed(Scanner scanner, User user, ArrayList<User> users) {
         System.out.println("1. Re-login");
         System.out.println("2. Forgot password");
         int check = Integer.parseInt(scanner.nextLine());
@@ -59,71 +45,65 @@ public class LoginService {
                 loginAccount(scanner, users);
                 break;
             case LoginContains_2.FORGOT_PASSWORD:
-                forgotPassword(scanner, users);
+                forgotPassword(scanner, user, users);
                 break;
         }
     }
-
-    public User inputLogin(Scanner scanner, ArrayList<User> users) {
+    public void loginAccount(Scanner scanner, ArrayList<User> users) {
         if (users == null) {
             System.out.println("users is null - #LoginService - checkLogin");
         } else {
-            int countUser = 0, countPassword = 0;
-            String userName;
-            do {
-                System.out.print("Enter username: ");
-                userName = scanner.nextLine();
-                for (User e : users) {
-                    if (e.getName().equals(userName))
-                        countUser++;
-                }
-                if (countUser == 0) {
-                    System.out.println("Username is wrong.");
-                }
-            } while (countUser <= 0);
-            System.out.print("Enter password: ");
-            String passWord = scanner.nextLine();
-            for (User e : users) {
-                if (!e.getPassword().equals(passWord)) {
-                    countPassword++;
-                }
-                if (e.getName().equals(userName) && e.getPassword().equals(passWord))
-                    return e;
-            }
-            if (countPassword > 0) {
-                System.out.println("Password is wrong.");
+            if (users.isEmpty()) {
+                System.out.println("No account. Please create an account");
+            } else {
+                int countUser = 0;
+                String userName;
+                do {
+                    System.out.print("Enter username: ");
+                    userName = scanner.nextLine();
+                    for (User e : users) {
+                        if (e.getName().equals(userName)){
+                            System.out.print("Enter password: ");
+                            String passWord = scanner.nextLine();
+                            if (!e.getPassword().equals(passWord)) {
+                                countUser = 0;
+                                System.out.println("Password is wrong.");
+                                menuLoginFailed(scanner, e, users);
+                            } else {
+                                menuLoginSuccess(scanner, e, users);
+                            }
+                            break;
+                        } else
+                            countUser++;
+                    }
+                    if (countUser > 0) {
+                        System.out.println("Username is wrong.");
+                    }
+                } while (countUser > 0);
             }
         }
-        return null;
     }
-
-    public void forgotPassword(Scanner scanner, ArrayList<User> users) {
+    public void forgotPassword(Scanner scanner, User user, ArrayList<User> users) {
         if (users == null) {
             System.out.println("user is null - #LoginService - forgotPassword");
         } else {
-            boolean checkMail;
+            int count;
             do {
-                UserService userService = new UserService();
                 System.out.print("Enter your email: ");
                 String email = scanner.nextLine();
-                checkMail = userService.emailValidator(email);
-                if (checkMail) {
-                    int count = 0;
-                    for (User e : users) {
-                        if (e.getMail().equals(email)) {
-                            changePassword(scanner, e);
-                            break;
-                        } else
-                            count++;
+                count = 0;
+                for (User e : users) {
+                    if (e.getMail().equals(email) && e.getName().equals(user.getName())){
+                        changePassword(scanner, e);
+                        count++;
+                        break;
                     }
-                    if (users.isEmpty() || count > 0)
-                        System.out.println("Email is not exist. Please register account");
-                } else
-                    System.out.println("Email format error");
-            } while (!checkMail);
+                }
+                if (count == 0)
+                    System.out.println("Email invalidate");
+            } while (count == 0);
         }
     }
-
     public void changeUserName(Scanner scanner, User user, ArrayList<User> users) {
         System.out.print("Enter new your username: ");
         String newName = scanner.nextLine();
@@ -139,13 +119,12 @@ public class LoginService {
             }
             if (count > 0)
                 System.out.println("Please enter anther name...");
-            else{
+            else {
                 user.setName(newName);
                 System.out.println("You are change username successfully");
             }
         }
     }
-
     public void changeEmail(Scanner scanner, User user, ArrayList<User> users) {
         System.out.print("Enter new your email: ");
         String newEmail = scanner.nextLine();
@@ -157,14 +136,14 @@ public class LoginService {
             if (userService.emailValidator(newEmail)) {
                 int count = 0;
                 for (User e : users) {
-                    if (e.getMail().equals(newEmail)){
+                    if (e.getMail().equals(newEmail)) {
                         count++;
                         break;
                     }
                 }
                 if (count > 0)
                     System.out.println("Please enter anther name...");
-                else{
+                else {
                     user.setMail(newEmail);
                     System.out.println("You are change email successfully");
                 }
@@ -181,14 +160,12 @@ public class LoginService {
         else {
             UserService userService = new UserService();
             if (userService.passwordValidator(newPassword)) {
-                    user.setPassword(newPassword);
-                    System.out.println("You are change password successfully");
-            }
-            else
+                user.setPassword(newPassword);
+                System.out.println("You are change password successfully");
+            } else
                 System.out.println("Please enter a password from 7 to 15 characters, containing at least 1 capital letter, 1 special character");
         }
     }
-
     public void menuSub() {
         System.out.println("1. Change the username");
         System.out.println("2. Change the email");

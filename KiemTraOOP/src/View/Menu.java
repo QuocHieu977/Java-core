@@ -8,7 +8,7 @@ import service.LoginService;
 import service.RegisterService;
 import utils.RegisterContants;
 public class Menu {
-    public void display(Scanner scanner, ArrayList<User> users) {
+    public void display(Scanner scanner,  ArrayList<User> users) {
         RegisterService registerService = new RegisterService();
         LoginService loginService = new LoginService();
 
