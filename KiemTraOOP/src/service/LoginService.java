@@ -31,15 +31,12 @@ public class LoginService {
             switch (choose) {
                 case LoginContains.CHANGE_USER:
                     changeUserName(scanner, user, users);
-                    System.out.println(users);
                     break;
                 case LoginContains.CHANGE_EMAIL:
                     changeEmail(scanner, user, users);
-                    System.out.println(users);
                     break;
                 case LoginContains.CHANGE_PASSWORD:
                     changePassword(scanner, user);
-                    System.out.println(users);
                     break;
                 case LoginContains.LOGOUT:
                     break;
