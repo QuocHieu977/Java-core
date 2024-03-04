@@ -17,12 +17,12 @@ public class LoginService {
             if (user == null) {
                 menuLoginFailed(scanner, users);
             } else {
-                menuLoginSuccess(scanner, user);
+                menuLoginSuccess(scanner, user, users);
             }
         }
     }
 
-    public void menuLoginSuccess(Scanner scanner, User user) {
+    public void menuLoginSuccess(Scanner scanner, User user, ArrayList<User> users) {
         System.out.println("========= Welcome " + user.getName() + " =========");
         int choose;
         do {
@@ -30,13 +30,16 @@ public class LoginService {
             choose = Integer.parseInt(scanner.nextLine());
             switch (choose) {
                 case LoginContains.CHANGE_USER:
-                    changeUserInfo(scanner, user, "username");
+                    changeUserName(scanner, user, users);
+                    System.out.println(users);
                     break;
                 case LoginContains.CHANGE_EMAIL:
-                    changeUserInfo(scanner, user, "email");
+                    changeEmail(scanner, user, users);
+                    System.out.println(users);
                     break;
                 case LoginContains.CHANGE_PASSWORD:
-                    changeUserInfo(scanner, user, "password");
+                    changePassword(scanner, user);
+                    System.out.println(users);
                     break;
                 case LoginContains.LOGOUT:
                     break;
@@ -86,9 +89,8 @@ public class LoginService {
             for (User e : users) {
                 if (!e.getPassword().equals(passWord)) {
                     countPassword++;
-                    break;
                 }
-                if (e.getName().equalsIgnoreCase(userName) && e.getPassword().equals(passWord))
+                if (e.getName().equals(userName) && e.getPassword().equals(passWord))
                     return e;
             }
             if (countPassword > 0) {
@@ -112,7 +114,7 @@ public class LoginService {
                     int count = 0;
                     for (User e : users) {
                         if (e.getMail().equals(email)) {
-                            changeUserInfo(scanner, e, "password");
+                            changePassword(scanner, e);
                             break;
                         } else
                             count++;
@@ -125,39 +127,69 @@ public class LoginService {
         }
     }
 
-    public void changeUserInfo(Scanner scanner, User user, String nameInfoChange) {
-        System.out.print("Enter new your " + nameInfoChange + ": ");
-        String newNameInfo = scanner.nextLine();
-        UserService userService = new UserService();
-        if (nameInfoChange.equalsIgnoreCase("username")) {
-            if (user.getName().equals(newNameInfo))
-                System.out.println("Please enter another name...");
-            else {
-                user.setName(newNameInfo);
+    public void changeUserName(Scanner scanner, User user, ArrayList<User> users) {
+        System.out.print("Enter new your username: ");
+        String newName = scanner.nextLine();
+        if (user.getName().equals(newName))
+            System.out.println("Please enter another name...");
+        else {
+            int count = 0;
+            for (User e : users) {
+                if (e.getName().equals(newName)) {
+                    count++;
+                    break;
+                }
+            }
+            if (count > 0)
+                System.out.println("Please enter anther name...");
+            else{
+                user.setName(newName);
                 System.out.println("You are change username successfully");
             }
-        } else if (nameInfoChange.equalsIgnoreCase("email")) {
-            if (userService.emailValidator(newNameInfo)) {
-                if (user.getMail().equals(newNameInfo))
-                    System.out.println("Please enter another email...");
-                else {
-                    user.setMail(newNameInfo);
+        }
+    }
+
+    public void changeEmail(Scanner scanner, User user, ArrayList<User> users) {
+        System.out.print("Enter new your email: ");
+        String newEmail = scanner.nextLine();
+
+        if (user.getMail().equals(newEmail))
+            System.out.println("Please enter another email...");
+        else {
+            UserService userService = new UserService();
+            if (userService.emailValidator(newEmail)) {
+                int count = 0;
+                for (User e : users) {
+                    if (e.getMail().equals(newEmail)){
+                        count++;
+                        break;
+                    }
+                }
+                if (count > 0)
+                    System.out.println("Please enter anther name...");
+                else{
+                    user.setMail(newEmail);
                     System.out.println("You are change email successfully");
                 }
             } else
                 System.out.println("Email format error");
-        } else if (nameInfoChange.equalsIgnoreCase("password")) {
-            if (userService.passwordValidator(newNameInfo)) {
-                if (user.getPassword().equals(newNameInfo))
-                    System.out.println("Please enter another password...");
-                else {
-                    user.setPassword(newNameInfo);
+        }
+    }
+    public void changePassword(Scanner scanner, User user) {
+        System.out.print("Enter new your password: ");
+        String newPassword = scanner.nextLine();
+
+        if (user.getPassword().equals(newPassword))
+            System.out.println("Please enter another password...");
+        else {
+            UserService userService = new UserService();
+            if (userService.passwordValidator(newPassword)) {
+                    user.setPassword(newPassword);
                     System.out.println("You are change password successfully");
-                }
-            } else
+            }
+            else
                 System.out.println("Please enter a password from 7 to 15 characters, containing at least 1 capital letter, 1 special character");
-        } else
-            System.out.println("This information cannot be changed..");
+        }
     }
 
     public void menuSub() {
