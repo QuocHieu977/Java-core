@@ -3,31 +3,27 @@ package entities;
 import utils.Type;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-public class Customer extends TotalDeposit {
-    private static int autoId;
+public class Customer  {
+    private static int autoId = 1001;
     private int id;
     private String name;
     private String address;
-    private int phone;
+    private String phone;
     private Type type;
-    private ArrayList<Saving> savings;
-
-    public Customer(String name, String address, int phone, Type type) {
-        this.id = ++autoId;
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.type = type;
-        this.savings = new ArrayList<>();
-    }
 
     public Customer() {
-        this.savings = new ArrayList<>();
+        this.id = ++autoId;
     }
 
-    public String getId() {
-        return String.format("%05d", id);
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -46,14 +42,6 @@ public class Customer extends TotalDeposit {
         this.address = address;
     }
 
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
     public Type getType() {
         return type;
     }
@@ -62,32 +50,63 @@ public class Customer extends TotalDeposit {
         this.type = type;
     }
 
-
-    public ArrayList<Saving> getSavings() {
-        return savings;
-    }
-
-    public void setSavings(ArrayList<Saving> savings) {
-        this.savings = savings;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
-                ", type=" + type +
+                ", type=" + type.value +
                 '}' + "\n";
     }
 
-    @Override
-    public double totalDeposit() {
-        double sum = 0;
-        for (Saving e : savings) {
-            sum += e.getDeposit();
+    public void inputNewCustomer(Scanner scanner) {
+        System.out.print("Mời bạn nhập vào tên: ");
+        name = scanner.nextLine();
+        System.out.print("Mời bạn nhập vào địa chỉ: ");
+        address = scanner.nextLine();
+        System.out.print("Mời bạn nhập vào SDT: ");
+
+        while (true) {
+            String temPhone = scanner.nextLine();
+            if (temPhone.matches("[^0d\\{9}]")) {
+                this.setPhone(temPhone);
+                break;
+            }
+            System.out.println("Số điện thoại không đúng định dạng. Vui lòng nhập lại.");
         }
-        return sum;
+
+        System.out.print("Mời bạn chọn loại khách hàng: ");
+        System.out.println("1. Khách hang cá nhân");
+        System.out.println("2. Khách hang nhóm");
+        System.out.println("3. Khách hang doanh nghiệp");
+        int choose;
+        while (true) {
+            try{
+                choose = Integer.parseInt(scanner.nextLine());
+                if (choose <=0 || choose >3) {
+                    throw new InputMismatchException();
+                }
+                break;
+            } catch (InputMismatchException ex) {
+                System.out.println("Bạn nhập không đúng. Vui lòng nhập lại");
+            }
+        }
+        switch (choose) {
+            case 1:
+                type = Type.PERSONAL;
+                break;
+            case 2:
+                type = Type.GROUPS;
+                break;
+            case 3:
+                type = Type.BUSINESSES;
+                break;
+        }
     }
 }

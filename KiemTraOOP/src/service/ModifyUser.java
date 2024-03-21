@@ -35,7 +35,6 @@ public class ModifyUser {
         }
     }
     public void insertAccount(Scanner scanner, ArrayList<User> users) {
-        UserService userService = new UserService();
         users.add(inputUser(scanner, users));
         System.out.println("You created an account successfully...");
         System.out.println(users);
@@ -44,7 +43,7 @@ public class ModifyUser {
         String userName;
         User userCheck;
         do {
-            System.out.print("Enter your username: ");
+            System.out.print("Enter your username: "); //
             userName = scanner.nextLine();
             userCheck = userService.findByName(userName, users);
             if(userCheck == null) {

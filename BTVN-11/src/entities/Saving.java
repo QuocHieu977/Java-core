@@ -1,28 +1,15 @@
 package entities;
 
 
-public class Saving {
-    private int term;
-    private double deposit;
-    private Customer customer;
-    private Bank bank;
+import java.time.LocalDate;
 
-    public Saving(int term, double deposit, Customer customer, Bank bank) {
-        this.term = term;
-        this.deposit = deposit;
-        this.customer = customer;
-        this.bank = bank;
-    }
+public class Saving {
+    Bank bank;
+    private double deposit;
+    private LocalDate createDate;
 
     public Saving() {
-    }
-
-    public int getTerm() {
-        return term;
-    }
-
-    public void setTerm(int term) {
-        this.term = term;
+        createDate = LocalDate.now();
     }
 
     public double getDeposit() {
@@ -33,12 +20,12 @@ public class Saving {
         this.deposit = deposit;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public LocalDate getCreateDate() {
+        return createDate;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
     }
 
     public Bank getBank() {
@@ -49,17 +36,12 @@ public class Saving {
         this.bank = bank;
     }
 
-    public void addSaving(Customer customer) {
-        customer.getSavings().add(this);
-    }
-
     @Override
     public String toString() {
         return "Saving{" +
-                "term=" + term +
-                ", deposit=" + deposit +
-                ", customer=" + customer + "\n" +
                 ", bank=" + bank +
-                '}' + "\n";
+                ", deposit=" + deposit +
+                ", createDate=" + createDate +
+                '}';
     }
 }

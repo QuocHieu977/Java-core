@@ -16,7 +16,7 @@ public class Main {
         ArrayList<Bank> banks = new ArrayList<>();
         banks.add(new Bank("acb", 1.0));
 
-        ArrayList<Saving> savings = new Customer().getSavings();
+        ArrayList<Saving> savings = new ArrayList<>();
 
         View view = new View();
         view.display(scanner, customers, banks, savings);

@@ -5,42 +5,38 @@ import entities.Customer;
 import utils.Type;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankService {
     public void inputBank(Scanner scanner, ArrayList<Bank> banks) {
-        String check;
-        do {
-            System.out.print("Enter bank name: ");
-            String name = scanner.nextLine();
+        System.out.print("Mời bạn nhập số lượng ngân hàng cần thêm: ");
+        int bankNumber;
 
-            if(findByNameBank(name, banks) == null) {
-                double interestRates;
-                do {
-                    try {
-                        System.out.print("Enter bank interest rates: ");
-                        interestRates = Double.parseDouble(scanner.nextLine());
-                        if (interestRates > 0)
-                            break;
+        while (true) {
+            try {
+                bankNumber = Integer.parseInt(scanner.nextLine());
+                if (bankNumber <=0)
+                    throw new InputMismatchException();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Vui lòng nhập số lượng ngân hàng lớn hơn 0");
+            }
+        }
 
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please you enter number...");
-                    }
+        for(int i=0; i<bankNumber; i++) {
+            System.out.println("Mời bạn nhập ngân hàng thứ " + (i+1));
+            Bank bank = new Bank();
+            bank.inputNewBank(scanner);
+            banks.add(bank);
+        }
 
-                } while (true);
-                banks.add(new Bank(name, interestRates));
-            } else
-                System.out.println("This bank existed. Please enter another bank");
-
-            System.out.println("Do you want more bank?(Y/N): ");
-            check = scanner.nextLine();
-        }while (!check.equalsIgnoreCase("n"));
         System.out.println(banks);
     }
 
-    public Bank findByNameBank(String name, ArrayList<Bank> banks) {
-        for (Bank e: banks) {
-            if (e.getName().equalsIgnoreCase(name))
+    public Bank findById(int id, ArrayList<Bank> banks) {
+        for (Bank e : banks) {
+            if (e.getId() == id)
                 return e;
         }
         return null;

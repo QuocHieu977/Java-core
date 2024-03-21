@@ -1,21 +1,21 @@
 package entities;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class Bank {
-    private static int autoId;
+    private static int autoId = 100;
     private int id;
     private String name;
     private double interestRateDeposit;
 
-    public Bank(String name, double interestRateDeposit) {
+    public Bank() {
         this.id = ++autoId;
-        this.name = name;
-        this.interestRateDeposit = interestRateDeposit;
     }
 
-    public String getId() {
-        return String.format("%03d", id);
+    public int getId() {
+        return id;
     }
-
     public String getName() {
         return name;
     }
@@ -35,9 +35,27 @@ public class Bank {
     @Override
     public String toString() {
         return "Bank{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", interestRateDeposit=" + interestRateDeposit +
                 '}' + "\n";
+    }
+
+    public void inputNewBank(Scanner scanner) {
+        System.out.print("Mời bạn nhập tên ngân hàng: ");
+        name = scanner.nextLine();
+        while (true) {
+            try {
+                System.out.print("Mời bạn nhập lãi suất: ");
+                interestRateDeposit = Double.parseDouble(scanner.nextLine());
+                if (interestRateDeposit <=0) {
+                    throw new InputMismatchException();
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Bạn vui lòng nhập lãi suất lớn hơn 0.");
+            }
+        }
+
     }
 }

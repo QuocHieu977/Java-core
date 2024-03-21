@@ -5,71 +5,35 @@ import entities.Customer;
 import utils.Type;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CustomerService {
     public void inputCustomer(Scanner scanner, ArrayList<Customer> customers) {
-        String check;
-        do {
-            System.out.print("Enter your name: ");
-            String name = scanner.nextLine();
-            if(findByNameCustomer(name, customers) == null) {
-                System.out.print("Enter your address: ");
-                String address = scanner.nextLine();
-                int phone;
-                do {
-                    try {
-                        System.out.print("Enter your phone number: ");
-                        phone = Integer.parseInt(scanner.nextLine());
-                        break;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please you enter number...");
-                    }
-
-                } while (true);
-
-                System.out.println("Choose customer type: :");
-                System.out.println("1. PERSONAL");
-                System.out.println("2. GROUPS");
-                System.out.println("3. BUSINESSES");
-
-                Type type = null;
-                int choose;
-                do {
-                    try {
-                        choose = Integer.parseInt(scanner.nextLine());
-                        break;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Please you enter number...");
-                    }
-
-                } while (true);
-
-                switch (choose) {
-                    case 1:
-                        type = Type.PERSONAL;
-                        break;
-                    case 2:
-                        type = Type.GROUPS;
-                        break;
-                    case 3:
-                        type = Type.BUSINESSES;
-                        break;
-                    default:
-                        System.out.println("Please enter again");
+        System.out.print("Mời bạn nhập số lượng khách hàng cần thêm: ");
+        int customerNumber;
+        while (true) {
+            try {
+                customerNumber = Integer.parseInt(scanner.nextLine());
+                if (customerNumber <=0) {
+                    throw new InputMismatchException();
                 }
-                customers.add(new Customer(name, address, phone, type));
-            } else
-                System.out.println("this customer existed. Please enter another customer");
-
-            System.out.println("Do you want more customers?(Y/N): ");
-            check = scanner.nextLine();
-        }while (!check.equalsIgnoreCase("n"));
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Vui lòng nhập số lượng khách hàng lớn hơn 0");
+            }
+        }
+        for(int i=0; i<customerNumber; i++) {
+            Customer customer = new Customer();
+            System.out.print("Mời bạn nhập khách hang thứ " + (i+1));
+            customer.inputNewCustomer(scanner);
+            customers.add(customer);
+        }
         System.out.println(customers);
     }
-    public Customer findByNameCustomer(String name, ArrayList<Customer> customers) {
+    public Customer findById(int id, ArrayList<Customer> customers) {
         for (Customer e: customers) {
-            if (e.getName().contains(name))
+            if (e.getId() == id)
                 return e;
         }
         return null;
@@ -84,10 +48,10 @@ public class CustomerService {
 //                }
 //            }
 //        }
-        System.out.format("%-15s%-20s\n", "Name", "Deposit");
-        for(Customer e: customers) {
-            System.out.format("%-15s%-20f\n", e.getName(), e.totalDeposit());
-        }
+//        System.out.format("%-15s%-20s\n", "Name", "Deposit");
+//        for(Customer e: customers) {
+//            System.out.format("%-15s%-20f\n", e.getName(), e.totalDeposit());
+//        }
     }
 
 }
