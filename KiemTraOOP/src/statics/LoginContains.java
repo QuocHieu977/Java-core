@@ -1,4 +1,4 @@
-package utils;
+package statics;
 
 import javax.swing.*;
 

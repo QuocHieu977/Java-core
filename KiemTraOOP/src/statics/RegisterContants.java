@@ -1,4 +1,4 @@
-package utils;
+package statics;
 
 public class RegisterContants {
     public static final int LOGIN = 1;

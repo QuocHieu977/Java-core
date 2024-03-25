@@ -1,4 +1,4 @@
-package utils;
+package statics;
 
 public class LoginContains_2 {
     public static final int RE_LOGIN = 1;

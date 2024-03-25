@@ -1,38 +1,37 @@
 package View;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import entities.User;
-import service.ModifyUser;
-import utils.RegisterContants;
-public class View {
-    public void display(Scanner scanner,  ArrayList<User> users) {
-        ModifyUser modifyUser = new ModifyUser();
+import service.AccountService;
+import statics.RegisterContants;
+import utils.IOUtil;
 
+public class View {
+    public void display(Scanner scanner) {
+        final AccountService accountService = new AccountService();
         int choose;
+
         do {
             showMenu();
-            choose = Integer.parseInt(scanner.nextLine());
+            choose = IOUtil.intNumberInteger(1, 3, "Vui lòng nhập lại lưa chọn từ 1 - 3");
 
             switch (choose) {
                 case RegisterContants.LOGIN:
-                    modifyUser.loginAccount(scanner, users);
+                    accountService.loginAccount(scanner);
                     break;
                 case RegisterContants.REGISTER:
-                    modifyUser.insertAccount(scanner, users);
-                    break;
-                default:
-                    System.out.println("Please re-enter: ");
+                    accountService.insertAccount(scanner);
                     break;
             }
-        } while (choose !=0);
+
+        } while (choose != 3);
+
     }
 
     public void showMenu() {
-        System.out.println("1 - Login");
-        System.out.println("2 - Register");
+        System.out.println("1 - Đăng nhập");
+        System.out.println("2 - Đăng ký");
+        System.out.println("3 - Thoát");
+        System.out.println("Chọn: ");
     }
-
-
 }

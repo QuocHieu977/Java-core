@@ -1,18 +1,18 @@
 package entities;
 
-public class User {
+public class Account {
     private String name;
     private String mail;
     private String password;
 
-    public User(String name, String mail, String password) {
+    public Account(String name, String mail, String password) {
         this.name = name;
         this.mail = mail;
         this.password = password;
     }
     @Override
     public String toString() {
-        return "User{" +
+        return "Account{" +
                 "name='" + name + '\'' +
                 ", mail='" + mail + '\'' +
                 ", password='" + password + '\'' +
@@ -41,4 +41,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
